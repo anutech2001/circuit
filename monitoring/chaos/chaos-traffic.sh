@@ -14,7 +14,7 @@ FAST_URL="http://localhost:8081/adapter/ok"
 # ===============================
 WINDOW_SECONDS=15                  # slidingWindowSize (TIME_BASED)
 MIN_CALLS=10                       # minimumNumberOfCalls
-WAIT_OPEN_SECONDS=5               # waitDurationInOpenState
+WAIT_OPEN_SECONDS=30               # waitDurationInOpenState
 SLOW_THRESHOLD_MS=1500             # slowCallDurationThreshold
 HALF_OPEN_CALLS=1                  # permittedNumberOfCallsInHalfOpenState
 
