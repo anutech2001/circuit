@@ -1,0 +1,72 @@
+apiVersion: 1
+groups:
+    - orgId: 1
+      name: default
+      folder: Resilience
+      interval: 10s
+      rules:
+        - uid: bfb3r053m85j4a
+          title: Circuit Breaker OPEN – externalApi
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: afb0mogy0dh4wf
+              model:
+                editorMode: code
+                expr: resilience4j_circuitbreaker_state{name="externalApi",state="open"}
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0.5
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: e2d05634-4336-47d1-9502-3d4eb888e6ad
+          panelId: 1
+          noDataState: NoData
+          execErrState: Error
+          for: 10s
+          keepFiringFor: 20s
+          annotations:
+            __dashboardUid__: e2d05634-4336-47d1-9502-3d4eb888e6ad
+            __panelId__: "1"
+            description: |-
+                The circuit breaker protecting calls to externalApi has entered OPEN state,
+                indicating repeated failures or slow responses from the downstream system.
+                This alert helps prevent cascading failures by stopping further calls temporarily.
+            runbook_url: http://localhost:3000/d/circuit-breaker
+            summary: Circuit breaker for externalApi has been OPEN for more than 1 minute
+          labels:
+            component: circuit-breaker
+            service: adapter-service
+            severity: critical
+          isPaused: false
+          notification_settings:
+            receiver: "\U0001F6A8 [INCIDENT] Circuit Breaker OPEN – externalApi"
